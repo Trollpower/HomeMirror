@@ -7,15 +7,6 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/birthday_text"
-        style="@style/MirrorText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/mirror_birthday_text_size"
-        android:visibility="gone"
-        tools:text="Happy Birthday Andy!" />
-
-    <TextView
         android:id="@+id/day_text"
         style="@style/MirrorText"
         android:layout_width="wrap_content"
@@ -56,5 +47,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/mirror_item_spacing"
         android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vertretung"
+        android:id="@+id/substitutionText"
+        style="@style/MirrorText" />
 
 </LinearLayout>

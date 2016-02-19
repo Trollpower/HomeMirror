@@ -17,8 +17,10 @@ import android.widget.TextView;
 import com.morristaedt.mirror.configuration.ConfigurationSettings;
 import com.morristaedt.mirror.modules.CalendarModule;
 import com.morristaedt.mirror.modules.DayModule;
+import com.morristaedt.mirror.modules.SubstitutionModule;
 import com.morristaedt.mirror.modules.XKCDModule;
 import com.morristaedt.mirror.receiver.AlarmReceiver;
+import com.morristaedt.mirror.requests.SubstitutionData;
 import com.squareup.picasso.Picasso;
 
 public class MirrorActivity extends ActionBarActivity {
@@ -30,6 +32,7 @@ public class MirrorActivity extends ActionBarActivity {
     private ImageView mXKCDImage;
     private TextView mCalendarTitleText;
     private TextView mCalendarDetailsText;
+    private TextView mSubstitutionText;
 
     private XKCDModule.XKCDListener mXKCDListener = new XKCDModule.XKCDListener() {
         @Override
@@ -54,6 +57,13 @@ public class MirrorActivity extends ActionBarActivity {
             //Make marquee effect work for long text
             mCalendarTitleText.setSelected(true);
             mCalendarDetailsText.setSelected(true);
+        }
+    };
+
+    private SubstitutionModule.SubstitutionListener mSubstitutionListener = new SubstitutionModule.SubstitutionListener() {
+        @Override
+        public void onNewSubstitution(SubstitutionData substitutionData) {
+            mSubstitutionText.setText(substitutionData.SomeText);
         }
     };
 
@@ -100,6 +110,8 @@ public class MirrorActivity extends ActionBarActivity {
             mXKCDImage.setColorFilter(colorFilterNegative); // not inverting for now
         }
 
+        mSubstitutionText = (TextView) findViewById(R.id.substitutionText);
+
         setViewState();
     }
 
@@ -124,6 +136,8 @@ public class MirrorActivity extends ActionBarActivity {
             mCalendarTitleText.setVisibility(View.GONE);
             mCalendarDetailsText.setVisibility(View.GONE);
         }
+
+        SubstitutionModule.getSubstitutions(mSubstitutionListener);
     }
 
     @Override
