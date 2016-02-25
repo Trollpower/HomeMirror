@@ -10,7 +10,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
-import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -18,17 +17,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,16 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 /**
  * Created by Trollpower on 19.02.2016.
@@ -68,9 +51,8 @@ public class SubstitutionModule {
 
             @Override
             protected SubstitutionData doInBackground(Void... params) {
-                String substitutionSite = GetSubstitutionSite();
-                if(substitutionSite == "")
-                {
+                InputStream substitutionSite = GetSubstitutionSiteStream();
+                if (substitutionSite == null) {
                     return null;
                 }
 
@@ -86,23 +68,21 @@ public class SubstitutionModule {
         }.execute();
     }
 
-    private static String ParseSubstitutionSite(String siteCode, Date targetDate){
+    private static String ParseSubstitutionSite(InputStream siteStream, Date targetDate) {
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        int index = siteCode.indexOf("Plan für den " + df.format(targetDate));
-
         return df.format(targetDate);
     }
 
-    private static String GetSubstitutionSite(){
+    private static String GetSubstitutionSite() {
         Header[] header = GetHeaderDataFromGet("http://gunzelinrs.silberkamp.de/embed/index.php");
         try {
             HttpPost httppost = new HttpPost("http://gunzelinrs.silberkamp.de/embed/login.php");
-            for(int i =0; i < header.length; i++) {
+            for (int i = 0; i < header.length; i++) {
                 httppost.addHeader("Set-Cookie", (header[i].getValue()));
             }
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
             nameValuePairs.add(new BasicNameValuePair("username", "ki.meyer"));
-            nameValuePairs.add(new BasicNameValuePair("password", "*****"));
+            nameValuePairs.add(new BasicNameValuePair("password", "IsgMa2009"));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             HttpClient postClient = new DefaultHttpClient();
@@ -124,17 +104,49 @@ public class SubstitutionModule {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         return "";
     }
 
-    private static Header[] GetHeaderDataFromGet(String url){
+    private static InputStream GetSubstitutionSiteStream() {
+        Header[] header = GetHeaderDataFromGet("http://gunzelinrs.silberkamp.de/embed/index.php");
+        try {
+            HttpPost httppost = new HttpPost("http://gunzelinrs.silberkamp.de/embed/login.php");
+            for (int i = 0; i < header.length; i++) {
+                httppost.addHeader("Set-Cookie", (header[i].getValue()));
+            }
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("username", "ki.meyer"));
+            nameValuePairs.add(new BasicNameValuePair("password", "IsgMa2009"));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            HttpClient postClient = new DefaultHttpClient();
+            HttpResponse response2 = postClient.execute(httppost);
+
+            HttpEntity entity = response2.getEntity();
+            InputStream mstream = entity.getContent();
+            return mstream;
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static Header[] GetHeaderDataFromGet(String url) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(url);
         HttpResponse response = null;
