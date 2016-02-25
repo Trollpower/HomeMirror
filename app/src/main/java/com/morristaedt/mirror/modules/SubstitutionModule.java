@@ -30,7 +30,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -70,7 +73,9 @@ public class SubstitutionModule {
                 {
                     return null;
                 }
-                String val = ParseSubstitutionSite(substitutionSite);
+
+                Calendar c = Calendar.getInstance();
+                String val = ParseSubstitutionSite(substitutionSite, c.getTime());
                 SubstitutionData sd = new SubstitutionData();
                 Random r = new Random();
                 int i1 = r.nextInt(1000);
@@ -81,26 +86,11 @@ public class SubstitutionModule {
         }.execute();
     }
 
-    private static String ParseSubstitutionSite(String siteCode){
-        try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader("<root>"+siteCode+"</root>")));
-            String expression = "//h4/span[1]";
-            XPathExpression xpath = null;
-            xpath = XPathFactory.newInstance().newXPath().compile(expression);
+    private static String ParseSubstitutionSite(String siteCode, Date targetDate){
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        int index = siteCode.indexOf("Plan für den " + df.format(targetDate));
 
-            String result = (String) xpath.evaluate(doc, XPathConstants.STRING);
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (XPathExpressionException e) {
-            e.printStackTrace();
-        }
-
-
-        return "";
+        return df.format(targetDate);
     }
 
     private static String GetSubstitutionSite(){
