@@ -24,7 +24,6 @@ public class ConfigurationSettings {
     @NonNull
     private SharedPreferences mSharedPrefs;
     private boolean mShowNextCalendarEvent;
-    private boolean mShowNewsHeadline;
     private boolean mShowXKCD;
     private boolean mInvertXKCD;
 
@@ -46,12 +45,6 @@ public class ConfigurationSettings {
         editor.apply();
     }
 
-    public void setShowNewsHeadline(boolean show) {
-        mShowNewsHeadline = show;
-        SharedPreferences.Editor editor = mSharedPrefs.edit();
-        editor.apply();
-    }
-
     public void setXKCDPreference(boolean showXKCD, boolean invertXKCDColors) {
         mShowXKCD = showXKCD;
         mInvertXKCD = invertXKCDColors;
@@ -63,10 +56,6 @@ public class ConfigurationSettings {
 
     public boolean showNextCalendarEvent() {
         return mShowNextCalendarEvent;
-    }
-
-    public boolean showNewsHeadline() {
-        return mShowNewsHeadline;
     }
 
     public boolean showXKCD() {

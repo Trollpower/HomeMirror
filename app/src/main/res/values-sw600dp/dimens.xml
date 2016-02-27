@@ -13,5 +13,5 @@
 
     <dimen name="substitution_text_size">24sp</dimen>
     <dimen name="substitution_item_text_size">20sp</dimen>
-    <dimen name="date_text_size">40sp</dimen>
+    <dimen name="date_text_size">20sp</dimen>
 </resources>

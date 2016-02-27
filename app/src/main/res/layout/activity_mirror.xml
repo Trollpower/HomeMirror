@@ -17,21 +17,12 @@
 
     <TextView
         android:id="@+id/calendar_title"
-        style="@style/MirrorText"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/mirror_item_spacing"
-        android:ellipsize="marquee"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:includeFontPadding="false"
-        android:singleLine="true"
+        style="@style/CalendarText"
         tools:text="Very important meeting" />
 
     <TextView
         android:id="@+id/calendar_details"
-        style="@style/MirrorText"
+        style="@style/CalendarText"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
