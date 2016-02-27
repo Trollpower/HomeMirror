@@ -39,7 +39,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
+import java.util.TimeZone;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -78,27 +80,29 @@ public class SubstitutionModule {
                     return null;
                 }
 
-                Calendar c = Calendar.getInstance();
-                SubstitutionData val = ParseSubstitutionSite(substitutionSite, c.getTime());
+                Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Germany"), Locale.GERMANY);
+                Date sourceDate = c.getTime();
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                if(hour >= 17)
+                    sourceDate = GetNextBusinessDay(sourceDate);
+
+                SubstitutionData val = GetSubstitutionPartForDate(substitutionSite, sourceDate);
                 val.setSomeText("Infos: " + val.getSubstitutionPlan().size());
                 return val;
             }
         }.execute();
     }
 
-    private static SubstitutionData ParseSubstitutionSite(String siteCode, Date targetDate){
-        return GetSubstitutionPartForDate(siteCode, targetDate);
-    }
-
     private static SubstitutionData GetSubstitutionPartForDate(String substitutionCode, Date targetDate){
         org.jsoup.nodes.Document doc = Jsoup.parseBodyFragment(substitutionCode);
         SubstitutionData data = new SubstitutionData();
         data.setSubstitutionPlan(new ArrayList<SubstitutionRow>());
+        data.setRequestedDate(targetDate);
+
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        String targetSubstitution = "Plan für den 26.02.2016";// + df.format(targetDate);
+        String targetSubstitution = "Plan für den " + df.format(targetDate);
 
         Elements elements = doc.getElementsByTag("h4");
-        String result = "";
         for (Element element : elements) {
             String text = element.text();
             if(text.equals(targetSubstitution))
@@ -114,6 +118,7 @@ public class SubstitutionModule {
                     {
                         data.getSubstitutionPlan().add(row);
                     }
+                    data.setSubstitutionFound(true);
                 }
             }
         }
@@ -210,5 +215,23 @@ public class SubstitutionModule {
         //Cookies holen
         Header[] header = response.getHeaders("Set-Cookie");
         return header;
+    }
+
+    private static Date GetNextBusinessDay(Date sourceDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(sourceDate);
+
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        if (dayOfWeek == Calendar.FRIDAY) {
+            calendar.add(Calendar.DATE, 3);
+        } else if (dayOfWeek == Calendar.SATURDAY) {
+            calendar.add(Calendar.DATE, 2);
+        } else {
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        Date nextBusinessDay = calendar.getTime();
+        return nextBusinessDay;
     }
 }

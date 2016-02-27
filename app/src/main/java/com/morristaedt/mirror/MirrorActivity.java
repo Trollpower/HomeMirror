@@ -23,6 +23,8 @@ import com.morristaedt.mirror.receiver.AlarmReceiver;
 import com.morristaedt.mirror.requests.SubstitutionData;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+
 public class MirrorActivity extends ActionBarActivity {
 
     @NonNull
@@ -63,7 +65,15 @@ public class MirrorActivity extends ActionBarActivity {
     private SubstitutionModule.SubstitutionListener mSubstitutionListener = new SubstitutionModule.SubstitutionListener() {
         @Override
         public void onNewSubstitution(SubstitutionData substitutionData) {
-            mSubstitutionText.setText(substitutionData.getSomeText());
+            SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+            String datum = df.format(substitutionData.getRequestedDate());
+            if(!substitutionData.isSubstitutionFound()) {
+
+                mSubstitutionText.setText("Keine Ausfälle oder Vertetungen für "+ datum +" gefunden");
+            }
+            else{
+                mSubstitutionText.setText("Ausfälle oder Vertetungen für den "+ datum +"");
+            }
         }
     };
 
