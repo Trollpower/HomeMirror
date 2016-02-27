@@ -49,4 +49,13 @@
         <item name="android:textSize">@dimen/configuration_text_size</item>
     </style>
 
+    <style name="list_item_substitution_textview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+        <item name="android:gravity">center_vertical|right</item>
+        <item name="android:textSize">@dimen/substitution_item_text_size</item>
+        <item name="android:layout_marginTop">@dimen/item_margin</item>
+    </style>
+
 </resources>

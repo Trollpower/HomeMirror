@@ -49,10 +49,18 @@
         android:visibility="gone" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Vertretung"
         android:id="@+id/substitutionText"
-        style="@style/MirrorListText" />
+        style="@style/MirrorListText"
+        android:gravity="center" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:divider="#ffffff"
+        android:dividerHeight="1pt" />
 
 </LinearLayout>

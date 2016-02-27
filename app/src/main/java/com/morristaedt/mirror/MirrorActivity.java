@@ -1,5 +1,6 @@
 package com.morristaedt.mirror;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
@@ -10,8 +11,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.morristaedt.mirror.configuration.ConfigurationSettings;
@@ -21,9 +26,19 @@ import com.morristaedt.mirror.modules.SubstitutionModule;
 import com.morristaedt.mirror.modules.XKCDModule;
 import com.morristaedt.mirror.receiver.AlarmReceiver;
 import com.morristaedt.mirror.requests.SubstitutionData;
+import com.morristaedt.mirror.requests.SubstitutionRow;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+import java.util.ArrayList;
 
 public class MirrorActivity extends ActionBarActivity {
 
@@ -35,6 +50,7 @@ public class MirrorActivity extends ActionBarActivity {
     private TextView mCalendarTitleText;
     private TextView mCalendarDetailsText;
     private TextView mSubstitutionText;
+    private ListView mListView;
 
     private XKCDModule.XKCDListener mXKCDListener = new XKCDModule.XKCDListener() {
         @Override
@@ -69,10 +85,15 @@ public class MirrorActivity extends ActionBarActivity {
             String datum = df.format(substitutionData.getRequestedDate());
             if(!substitutionData.isSubstitutionFound()) {
 
-                mSubstitutionText.setText("Keine Ausfälle oder Vertetungen für "+ datum +" gefunden");
+                mSubstitutionText.setText("Keine Ausfälle oder Vertretungen für "+ datum +" gefunden");
+                mListView.setVisibility(View.INVISIBLE);
             }
             else{
-                mSubstitutionText.setText("Ausfälle oder Vertetungen für den "+ datum +"");
+                MySimpleArrayAdapter substitutionAdapter = new MySimpleArrayAdapter(
+                                MirrorApplication.getContext(),
+                                substitutionData.getSubstitutionPlan());
+                mSubstitutionText.setText("Ausfälle oder Vertretungen für den "+ datum +"");
+                mListView.setAdapter(substitutionAdapter);
             }
         }
     };
@@ -121,7 +142,7 @@ public class MirrorActivity extends ActionBarActivity {
         }
 
         mSubstitutionText = (TextView) findViewById(R.id.substitutionText);
-
+        mListView = (ListView) findViewById(R.id.listView);
         setViewState();
     }
 
@@ -157,4 +178,37 @@ public class MirrorActivity extends ActionBarActivity {
         Intent intent = new Intent(this, SetUpActivity.class);
         startActivity(intent);
     }
+
+    public class MySimpleArrayAdapter extends ArrayAdapter<SubstitutionRow> {
+        private final Context context;
+        private final ArrayList<SubstitutionRow> values;
+
+        public MySimpleArrayAdapter(Context context, ArrayList<SubstitutionRow> values) {
+            super(context, -1, values);
+            this.context = context;
+            this.values = values;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View rowView = inflater.inflate(R.layout.list_item_substitution, parent, false);
+            TextView textViewLesson = (TextView) rowView.findViewById(R.id.lesson);
+            textViewLesson.setText(values.get(position).getLesson() + ". Stunde");
+
+            TextView textViewRoom = (TextView) rowView.findViewById(R.id.room);
+            textViewRoom.setText(values.get(position).getRoom());
+
+            TextView textViewSubject = (TextView) rowView.findViewById(R.id.subject);
+            textViewSubject.setText(values.get(position).getSubject());
+
+            TextView textViewTeacher = (TextView) rowView.findViewById(R.id.teacher);
+            textViewTeacher.setText(values.get(position).getTeacher());
+
+            return rowView;
+        }
+    }
+
+
 }

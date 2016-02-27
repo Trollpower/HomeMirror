@@ -10,4 +10,5 @@
     <dimen name="mirror_birthday_text_size">48sp</dimen>
     <dimen name="configuration_text_size">20sp</dimen>
     <dimen name="configuration_description_size">14sp</dimen>
+    <dimen name="list_item_height">50pt</dimen>
 </resources>

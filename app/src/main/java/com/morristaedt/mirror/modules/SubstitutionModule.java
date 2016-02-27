@@ -87,7 +87,6 @@ public class SubstitutionModule {
                     sourceDate = GetNextBusinessDay(sourceDate);
 
                 SubstitutionData val = GetSubstitutionPartForDate(substitutionSite, sourceDate);
-                val.setSomeText("Infos: " + val.getSubstitutionPlan().size());
                 return val;
             }
         }.execute();

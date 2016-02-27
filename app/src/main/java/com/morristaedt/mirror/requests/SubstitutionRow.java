@@ -51,6 +51,6 @@ public class SubstitutionRow {
     }
 
     public String toString(){
-        return "Stunde: " + this.lesson + " Fach" + this.subject + " Lehrer: " + this.teacher + " Raum: " + this.room;
+        return "Stunde: " + this.lesson + "\r\nFach: " + this.subject + "\r\nLehrer: " + this.teacher + "\r\nRaum: " + this.room;
     }
 }
