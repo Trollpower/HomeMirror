@@ -10,4 +10,7 @@
     <dimen name="mirror_birthday_text_size">60sp</dimen>
     <dimen name="configuration_text_size">24sp</dimen>
     <dimen name="configuration_description_size">18sp</dimen>
+
+    <dimen name="substitution_text_size">24sp</dimen>
+    <dimen name="date_text_size">40sp</dimen>
 </resources>

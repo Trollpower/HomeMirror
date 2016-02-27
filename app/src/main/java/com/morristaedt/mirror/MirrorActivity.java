@@ -63,7 +63,7 @@ public class MirrorActivity extends ActionBarActivity {
     private SubstitutionModule.SubstitutionListener mSubstitutionListener = new SubstitutionModule.SubstitutionListener() {
         @Override
         public void onNewSubstitution(SubstitutionData substitutionData) {
-            mSubstitutionText.setText(substitutionData.SomeText);
+            mSubstitutionText.setText(substitutionData.getSomeText());
         }
     };
 

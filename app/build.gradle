@@ -52,6 +52,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
     }
+    compile files('libs/jsoup-1.8.3.jar')
 }
 
 def signingFile = rootProject.file('signing.properties')

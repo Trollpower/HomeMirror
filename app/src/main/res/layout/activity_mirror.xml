@@ -53,6 +53,6 @@
         android:layout_height="wrap_content"
         android:text="Vertretung"
         android:id="@+id/substitutionText"
-        style="@style/MirrorText" />
+        style="@style/MirrorListText" />
 
 </LinearLayout>

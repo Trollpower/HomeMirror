@@ -23,12 +23,15 @@
 
     <style name="MirrorText">
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
+        <item name="android:textSize">@dimen/date_text_size</item>
         <item name="android:gravity">right|center_vertical</item>
         <item name="android:drawablePadding">8dp</item>
     </style>
 
     <style name="MirrorListText" parent="MirrorText">
-        <item name="android:paddingBottom">@dimen/item_margin</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif</item>
+        <item name="android:textSize">@dimen/substitution_text_size</item>
+        <item name="android:layout_marginTop">@dimen/item_margin</item>
     </style>
 
     <style name="ConfigurationItemText">
