@@ -78,15 +78,18 @@ public class SubstitutionModule {
         org.jsoup.nodes.Document doc = Jsoup.parseBodyFragment(substitutionCode);
         SubstitutionData data = new SubstitutionData();
         data.setSubstitutionPlan(new ArrayList<SubstitutionRow>());
+        data.setAnnouncements(new ArrayList<String>() );
         data.setRequestedDate(targetDate);
 
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        String targetSubstitution = "Plan für den " + df.format(targetDate);
+        String targetSubstitution = "01.03.2016";// + df.format(targetDate);
 
         Elements elements = doc.getElementsByTag("h4");
+        int i = 0;
         for (Element element : elements) {
+            i++;
             String text = element.text();
-            if(text.equals(targetSubstitution))
+            if(text.contains(targetSubstitution))
             {
                 //Ziel-Plan gefunden, nun alles parsen bis zum nächsten <hr/>
                 //Erst entweder <table> oder <span>. Bei yspan> gibts keine
@@ -100,6 +103,20 @@ public class SubstitutionModule {
                         data.getSubstitutionPlan().add(row);
                     }
                     data.setSubstitutionFound(true);
+                }
+
+                Element sibling = element.nextElementSibling();
+                while (true)
+                {
+                    if (sibling.tagName() == "hr")
+                        break;
+                    if (sibling.tagName() == "li") {
+                        data.getAnnouncements().add(sibling.text());
+                    }
+
+                    sibling = sibling.nextElementSibling();
+                    if(sibling == null)
+                        break;
                 }
             }
         }

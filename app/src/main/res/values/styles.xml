@@ -7,7 +7,7 @@
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:colorBackground">@android:color/black</item>
         <item name="android:textSize">@dimen/mirror_text_size</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">#67CAEB</item>
         <item name="android:checkboxStyle">@style/CompatCheckboxStyle</item>
         <item name="android:radioButtonStyle">@style/CompatRadioButtonStyle</item>
         <item name="android:buttonStyle">@android:style/Widget.Holo.Button</item>

@@ -44,4 +44,14 @@ public class SubstitutionData {
     }
 
     private ArrayList<SubstitutionRow> substitutionPlan;
+
+    public ArrayList<String> getAnnouncements() {
+        return announcements;
+    }
+
+    public void setAnnouncements(ArrayList<String> announcements) {
+        this.announcements = announcements;
+    }
+
+    private ArrayList<String> announcements;
 }

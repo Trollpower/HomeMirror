@@ -53,5 +53,20 @@
         android:id="@+id/listView"
         android:divider="#ffffff"
         android:dividerHeight="1pt" />
+    <TextView
+        android:id="@+id/mitteilungen_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/substitution_item_text_size"
+        android:text="Mitteilungen"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/mitteilungen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/substitution_item_text_size"
+        android:text=""
+        android:gravity="center" />
 
 </LinearLayout>

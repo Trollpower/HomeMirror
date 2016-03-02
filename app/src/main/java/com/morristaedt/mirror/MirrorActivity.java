@@ -51,6 +51,8 @@ public class MirrorActivity extends ActionBarActivity {
     private TextView mCalendarDetailsText;
     private TextView mSubstitutionText;
     private ListView mListView;
+    private TextView mAnnouncementLabel;
+    private TextView mAnnouncement;
 
     private XKCDModule.XKCDListener mXKCDListener = new XKCDModule.XKCDListener() {
         @Override
@@ -87,13 +89,25 @@ public class MirrorActivity extends ActionBarActivity {
 
                 mSubstitutionText.setText("Keine Ausfälle oder Vertretungen für "+ datum +" gefunden");
                 mListView.setVisibility(View.INVISIBLE);
+                mAnnouncementLabel.setVisibility(View.INVISIBLE);
+                mAnnouncement.setVisibility(View.INVISIBLE);
             }
             else{
                 MySimpleArrayAdapter substitutionAdapter = new MySimpleArrayAdapter(
                                 MirrorApplication.getContext(),
                                 substitutionData.getSubstitutionPlan());
-                mSubstitutionText.setText("Ausfälle oder Vertretungen für den "+ datum +"");
+
+                mAnnouncementLabel.setVisibility(View.VISIBLE);
+                mAnnouncement.setVisibility(View.VISIBLE);
+                mSubstitutionText.setText("Ausfälle oder Vertretungen für den " + datum + "");
                 mListView.setAdapter(substitutionAdapter);
+                String listString = "";
+
+                for (String s : substitutionData.getAnnouncements())
+                {
+                    listString += s + "\r\n";
+                }
+                mAnnouncement.setText(listString);
             }
         }
     };
@@ -142,6 +156,8 @@ public class MirrorActivity extends ActionBarActivity {
         }
 
         mSubstitutionText = (TextView) findViewById(R.id.substitutionText);
+        mAnnouncementLabel = (TextView) findViewById(R.id.mitteilungen_header);
+        mAnnouncement = (TextView) findViewById(R.id.mitteilungen);
         mListView = (ListView) findViewById(R.id.listView);
         setViewState();
     }
@@ -205,7 +221,6 @@ public class MirrorActivity extends ActionBarActivity {
 
             TextView textViewTeacher = (TextView) rowView.findViewById(R.id.teacher);
             textViewTeacher.setText(values.get(position).getTeacher());
-
             return rowView;
         }
     }

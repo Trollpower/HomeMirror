@@ -40,7 +40,8 @@ public class CalendarModule {
                         CalendarContract.EventsEntity.TITLE,
                         CalendarContract.EventsEntity.DTSTART,
                         CalendarContract.EventsEntity.DTEND,
-                        CalendarContract.EventsEntity.EVENT_LOCATION};
+                        CalendarContract.EventsEntity.EVENT_LOCATION,
+                        CalendarContract.EventsEntity.DESCRIPTION};
 
                 Calendar now = Calendar.getInstance();
                 SimpleDateFormat startFormat = new SimpleDateFormat("dd/MM/yy");
