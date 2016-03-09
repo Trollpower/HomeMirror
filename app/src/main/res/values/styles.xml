@@ -21,6 +21,13 @@
         <item name="android:button">@drawable/apptheme_btn_radio_holo_dark</item>
     </style>
 
+    <style name="MirrorTextDate">
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
+        <item name="android:textSize">@dimen/date_text_size</item>
+        <item name="android:gravity">left</item>
+        <item name="android:drawablePadding">8dp</item>
+    </style>
+
     <style name="MirrorText">
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-light</item>
         <item name="android:textSize">@dimen/date_text_size</item>

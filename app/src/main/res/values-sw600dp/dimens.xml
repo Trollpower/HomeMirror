@@ -11,7 +11,7 @@
     <dimen name="configuration_text_size">24sp</dimen>
     <dimen name="configuration_description_size">18sp</dimen>
 
-    <dimen name="substitution_text_size">24sp</dimen>
+    <dimen name="substitution_text_size">20sp</dimen>
     <dimen name="substitution_item_text_size">20sp</dimen>
     <dimen name="date_text_size">20sp</dimen>
 </resources>

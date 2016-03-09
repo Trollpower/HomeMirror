@@ -52,7 +52,7 @@ public class MirrorActivity extends ActionBarActivity {
     private TextView mSubstitutionText;
     private ListView mListView;
     private TextView mAnnouncementLabel;
-    private TextView mAnnouncement;
+    private ListView mListViewAnnouncements;
 
     private XKCDModule.XKCDListener mXKCDListener = new XKCDModule.XKCDListener() {
         @Override
@@ -90,7 +90,7 @@ public class MirrorActivity extends ActionBarActivity {
                 mSubstitutionText.setText("Keine Ausfälle oder Vertretungen für "+ datum +" gefunden");
                 mListView.setVisibility(View.INVISIBLE);
                 mAnnouncementLabel.setVisibility(View.INVISIBLE);
-                mAnnouncement.setVisibility(View.INVISIBLE);
+                mListViewAnnouncements.setVisibility(View.INVISIBLE);
             }
             else{
                 MySimpleArrayAdapter substitutionAdapter = new MySimpleArrayAdapter(
@@ -98,16 +98,11 @@ public class MirrorActivity extends ActionBarActivity {
                                 substitutionData.getSubstitutionPlan());
 
                 mAnnouncementLabel.setVisibility(View.VISIBLE);
-                mAnnouncement.setVisibility(View.VISIBLE);
-                mSubstitutionText.setText("Ausfälle oder Vertretungen für den " + datum + "");
+                mListViewAnnouncements.setVisibility(View.VISIBLE);
+                mSubstitutionText.setText("Vertretungsplan vom " + datum);
                 mListView.setAdapter(substitutionAdapter);
-                String listString = "";
-
-                for (String s : substitutionData.getAnnouncements())
-                {
-                    listString += s + "\r\n";
-                }
-                mAnnouncement.setText(listString);
+                ArrayAdapter adapter = new ArrayAdapter<String>(MirrorApplication.getContext(), R.layout.announcement_listview, substitutionData.getAnnouncements());
+                mListViewAnnouncements.setAdapter(adapter);
             }
         }
     };
@@ -157,8 +152,8 @@ public class MirrorActivity extends ActionBarActivity {
 
         mSubstitutionText = (TextView) findViewById(R.id.substitutionText);
         mAnnouncementLabel = (TextView) findViewById(R.id.mitteilungen_header);
-        mAnnouncement = (TextView) findViewById(R.id.mitteilungen);
         mListView = (ListView) findViewById(R.id.listView);
+        mListViewAnnouncements = (ListView) findViewById(R.id.listViewAnnouncements);
         setViewState();
     }
 

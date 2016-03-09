@@ -82,45 +82,58 @@ public class SubstitutionModule {
         data.setRequestedDate(targetDate);
 
         SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        String targetSubstitution = "01.03.2016";// + df.format(targetDate);
+        //String targetSubstitutionDate = "10.03.2016";
+        String targetSubstitutionDate = df.format(targetDate);
 
         Elements elements = doc.getElementsByTag("h4");
         int i = 0;
         for (Element element : elements) {
             i++;
             String text = element.text();
-            if(text.contains(targetSubstitution))
+            if(text.contains(targetSubstitutionDate))
             {
                 //Ziel-Plan gefunden, nun alles parsen bis zum nächsten <hr/>
                 //Erst entweder <table> oder <span>. Bei yspan> gibts keine
                 //Änderung
-                Element nextElement = element.nextElementSibling();
-                if(nextElement.tagName().equals("table"))
+                Element table = GetNextElement(element, "table", "hr");
+
+                if(table != null)
                 {
-                    ArrayList<SubstitutionRow> rows = GetTableRowData(nextElement);
+                    ArrayList<SubstitutionRow> rows = GetTableRowData(table);
                     for (SubstitutionRow row : rows)
                     {
                         data.getSubstitutionPlan().add(row);
                     }
-                    data.setSubstitutionFound(true);
                 }
 
-                Element sibling = element.nextElementSibling();
-                while (true)
+                Element li = GetNextElement(element, "li", "hr");
+                while(li != null)
                 {
-                    if (sibling.tagName() == "hr")
-                        break;
-                    if (sibling.tagName() == "li") {
-                        data.getAnnouncements().add(sibling.text());
-                    }
+                    data.getAnnouncements().add(li.text());
+                    li = GetNextElement(li.nextElementSibling(), "li", "hr");
+                }
 
-                    sibling = sibling.nextElementSibling();
-                    if(sibling == null)
-                        break;
+                if(data.getAnnouncements().size() > 0 || data.getSubstitutionPlan().size() > 0)
+                {
+                    data.setSubstitutionFound(true);
                 }
             }
         }
         return data;
+    }
+
+    private static Element GetNextElement(Element source, String startTagName, String endTagName)
+    {
+        Element current = source;
+        while (current != null) {
+            if(current.tagName() == endTagName)
+                return null;
+            if(current.tagName() == startTagName)
+                return current;
+            current = current.nextElementSibling();
+        }
+
+        return null;
     }
 
     private static ArrayList<SubstitutionRow> GetTableRowData(Element tableElement){

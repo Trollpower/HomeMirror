@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/day_text"
-        style="@style/MirrorText"
+        style="@style/MirrorTextDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Sunday the 22nd" />
@@ -45,7 +45,9 @@
         android:text="Vertretung"
         android:id="@+id/substitutionText"
         style="@style/MirrorListText"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textSize="10pt"
+        android:textStyle="bold" />
 
     <ListView
         android:layout_width="match_parent"
@@ -59,14 +61,13 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/substitution_item_text_size"
         android:text="Mitteilungen"
-        android:gravity="center" />
-
-    <TextView
-        android:id="@+id/mitteilungen"
+        android:gravity="center"
+        android:paddingTop="20pt" />
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/substitution_item_text_size"
-        android:text=""
-        android:gravity="center" />
+        android:id="@+id/listViewAnnouncements"
+        android:divider="#ffffff"
+        android:dividerHeight="1pt" />
 
 </LinearLayout>
