@@ -206,13 +206,29 @@ public class MirrorActivity extends ActionBarActivity {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.list_item_substitution, parent, false);
             TextView textViewLesson = (TextView) rowView.findViewById(R.id.lesson);
-            textViewLesson.setText(values.get(position).getLesson() + ". Stunde");
+            textViewLesson.setText(values.get(position).getLesson() + ". St.");
 
-            TextView textViewRoom = (TextView) rowView.findViewById(R.id.room);
-            textViewRoom.setText(values.get(position).getRoom());
+            if(values.get(position).getRoom() != null && values.get(position).getRoom() != "") {
+                TextView textViewRoom = (TextView) rowView.findViewById(R.id.room);
+                textViewRoom.setText(values.get(position).getRoom());
+                textViewRoom.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                TextView textViewRoom = (TextView) rowView.findViewById(R.id.room);
+                textViewRoom.setVisibility(View.INVISIBLE);
+            }
 
-            TextView textViewSubject = (TextView) rowView.findViewById(R.id.subject);
-            textViewSubject.setText(values.get(position).getSubject());
+            if(values.get(position).getSubject() != null && values.get(position).getSubject() != "") {
+                TextView textViewRoom = (TextView) rowView.findViewById(R.id.subject);
+                textViewRoom.setText(values.get(position).getSubject());
+                textViewRoom.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                TextView textViewRoom = (TextView) rowView.findViewById(R.id.subject);
+                textViewRoom.setVisibility(View.INVISIBLE);
+            }
 
             TextView textViewTeacher = (TextView) rowView.findViewById(R.id.teacher);
             textViewTeacher.setText(values.get(position).getTeacher());

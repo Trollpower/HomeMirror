@@ -65,7 +65,7 @@ public class SubstitutionModule {
                 Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Germany"), Locale.GERMANY);
                 Date sourceDate = c.getTime();
                 int hour = c.get(Calendar.HOUR_OF_DAY);
-                if(hour >= 17)
+                if(hour >= 17 || !IsBusinessDay(sourceDate))
                     sourceDate = GetNextBusinessDay(sourceDate);
 
                 SubstitutionData val = GetSubstitutionPartForDate(substitutionSite, sourceDate);
@@ -244,5 +244,20 @@ public class SubstitutionModule {
 
         Date nextBusinessDay = calendar.getTime();
         return nextBusinessDay;
+    }
+
+    private static boolean IsBusinessDay(Date sourceDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(sourceDate);
+
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        if (dayOfWeek == Calendar.SUNDAY) {
+            return false;
+        } else if (dayOfWeek == Calendar.SATURDAY) {
+            return false;
+        }
+
+        return true;
     }
 }
