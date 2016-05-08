@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:format12Hour="k:mm"
-    android:timeZone="GMT+0100"
+    android:timeZone="GMT+0200"
     android:includeFontPadding="false"
     android:padding="0dp"
     android:textSize="@dimen/mirror_clock_text_size" />
