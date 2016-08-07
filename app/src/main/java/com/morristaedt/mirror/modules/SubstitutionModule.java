@@ -172,9 +172,9 @@ public class SubstitutionModule {
     }
 
     private static String GetSubstitutionSite(){
-        Header[] header = GetHeaderDataFromGet("http://gunzelinrs.silberkamp.de/embed/index.php");
+        Header[] header = GetHeaderDataFromGet("http://intranet.gunzelin-realschule.de/embed/");
         try {
-            HttpPost httppost = new HttpPost("http://gunzelinrs.silberkamp.de/embed/login.php");
+            HttpPost httppost = new HttpPost("http://intranet.gunzelin-realschule.de/embed/login.php");
             for(int i =0; i < header.length; i++) {
                 httppost.addHeader("Set-Cookie", (header[i].getValue()));
             }

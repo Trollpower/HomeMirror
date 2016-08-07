@@ -2,6 +2,7 @@ package com.morristaedt.mirror;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.ColorFilter;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Build;
@@ -154,6 +155,10 @@ public class MirrorActivity extends ActionBarActivity {
         mAnnouncementLabel = (TextView) findViewById(R.id.mitteilungen_header);
         mListView = (ListView) findViewById(R.id.listView);
         mListViewAnnouncements = (ListView) findViewById(R.id.listViewAnnouncements);
+
+        TextView tvVersionName = (TextView)findViewById(R.id.versioninfo);
+        tvVersionName.setText(BuildConfig.VERSION_NAME);
+
         setViewState();
     }
 
